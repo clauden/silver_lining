@@ -3,7 +3,7 @@ Simple port scan and report.
 Example:
 <pre>
 <code>
-$ run.bash
+$ run.bash 10.4.1.0/30
 10.4.1.2: 22 
 10.4.1.4: 22 
 10.4.1.5: 22 5432 
