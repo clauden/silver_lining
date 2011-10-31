@@ -13,3 +13,12 @@ $ run.bash 10.4.1.0/30
 </code>
 </pre>
 
+In the openstack environment, both external (floating) IPs and private addresses may need to be scanned.
+
+Externals are allocated individually, so this should work:
+ 
+$ nova-manage floating list | awk '{print $2}' | xargs run.bash
+
+Per-project VLAN addresses are a little trickier, since we don't allocate the first couple of 
+addresses in each block.
+
