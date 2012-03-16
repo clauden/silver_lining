@@ -9,6 +9,7 @@ require 'date'
 
 @debug = nil
 
+@now = DateTime.now.to_time
 
 def trace(s)
   puts s if @debug
@@ -33,7 +34,11 @@ def extract(l)
   type = f[8].strip
   trace "project:%s, type:%s, date:%s" % [project, type, Date.parse(f[9])]
 
-  age = (Date.today - Date.parse(f[9])).to_int
+  # age in decimal days
+  age = (@now - DateTime.parse(f[9]).to_time)/3600/24
+  
+  # age in integer days
+  # age = (Date.today - Date.parse(f[9])).to_int
 
   return project, type, age 
 end
@@ -50,9 +55,12 @@ if __FILE__ == $0
     # a.each_index { |i| p "%d : %s" % [i, a[i]] }
 
     project, type, age = extract(l) rescue p "FAIL: %s" % l.split[11]
-    trace "Read %s : %s : %d" % [project, type, age]
+    trace "Read %s : %s : %f" % [project, type, age]
 
+    # show instance details
+    printf("INSTANCE\t%s\t%s\t%0.2f\n", project, type, age)
 
+    # accumulate total project-type usage
     projects[project] = {} if not projects[project] 
     trace "project: %s" % projects[project].inspect
 
@@ -64,7 +72,7 @@ if __FILE__ == $0
   trace projects.inspect
   projects.each_pair do |pname, p|
     p.keys.sort.each do |t|
-      printf("%s\t%s\t%d\n", pname, t, p[t])
+      printf("TOTAL\t%s\t%s\t%0.2f\n", pname, t, p[t])
     end
   end
 
