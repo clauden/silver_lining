@@ -1,0 +1,5 @@
+Add 'now' as rightmost field of parse output (for aging).
+
+Create parse, cumulative, count, prune modes in cli.
+
+Prune takes a day count, discarding older entries indiscriminately.
