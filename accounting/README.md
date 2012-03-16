@@ -9,20 +9,20 @@ The idea is to process as a pipeline so that various statistics can be extracted
 Various modes (differentiated by command-line arguments) can display different functions on the data.
 
 *Mode*: parse    
-*Input*:: euca-describe-instances output    
-*Output*:: <id project type age timestamp> for each active instance
+*Input*: euca-describe-instances output    
+*Output*: [id project type age timestamp] for each active instance
 
 *Mode*: cumulative    
-*Input*:: <id project type age> for each instance    
-*Output*:: <project type instance-days> for each project:type
+*Input*: [id project type age] for each instance    
+*Output*: [project type instance-days] for each project:type
 
 *Mode*: count    
-*Input*:: <id project type age> for each instance    
-*Output*:: <project type instance-count> for each project:type
+*Input*: [id project type age] for each instance    
+*Output*: [project type instance-count] for each project:type
 
 *Mode*: prune(n)    
-*Input*:: <id project type age timestamp> for each (historical) instance    
-*Output*:: <id project type age> for each instance last seen within last n days
+*Input*: [id project type age timestamp] for each (historical) instance    
+*Output*: [id project type age] for each instance last seen within last n days
 
 To look at current usage, parse then count.
 
