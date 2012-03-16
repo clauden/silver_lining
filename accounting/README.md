@@ -28,6 +28,7 @@ To look at current usage, parse then count.
 
 To track cumulative use over time, keep a running history of instance data in order to avoid losing information when instances disappear.  Instances age out and stop being counted by being dead for long enough.  Aging out requires keeping a last-seen timestamp on each instance record.
 
+```
   # update history by merging current data 
   current = parse
   for record in history
@@ -41,4 +42,4 @@ To track cumulative use over time, keep a running history of instance data in or
   # prune 
 
   # count
-
+```
