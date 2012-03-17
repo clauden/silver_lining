@@ -12,7 +12,7 @@ Various modes (differentiated by command-line arguments) can display different f
 *Input*: euca-describe-instances output    
 *Output*: [id project type age timestamp] for each active instance
 
-*Mode*: cumulative    
+*Mode*: sum
 *Input*: [id project type age] for each instance    
 *Output*: [project type instance-days] for each project:type
 
@@ -20,9 +20,9 @@ Various modes (differentiated by command-line arguments) can display different f
 *Input*: [id project type age] for each instance    
 *Output*: [project type instance-count] for each project:type
 
-*Mode*: prune(n)    
+*Mode*: age(age-date)    
 *Input*: [id project type age timestamp] for each (historical) instance    
-*Output*: [id project type age] for each instance last seen within last n days
+*Output*: [id project type age] for each instance newer than age-date
 
 To look at current usage, parse then count.
 
@@ -43,3 +43,5 @@ To track cumulative use over time, keep a running history of instance data in or
 
   # count
 ```
+
+Feed multiple files (for individual sites) into count/sum to merge data.
