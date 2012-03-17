@@ -10,6 +10,7 @@ require 'slop'
 
 @debug = nil
 @now = DateTime.now.to_time
+@ignoreprojects = false
 
 def trace(s)
   puts s if @debug
@@ -89,9 +90,23 @@ def count_worker
   end
 
   trace projects.inspect
-  projects.each_pair do |pname, p|
-    p.keys.sort.each do |t|
-      printf("%s\t%s\t%d\n", pname, t, p[t])
+
+  if @ignoreprojects
+    types = {}
+    projects.each_pair do |pname, p|
+      p.keys.sort.each do |t|
+        types[t] = 0 if not types[t]
+        types[t] += p[t]
+      end
+    end
+    types.each_pair do |type, count|
+      printf("%s\t%d\n", type, count)
+    end
+  else
+    projects.each_pair do |pname, p|
+      p.keys.sort.each do |t|
+        printf("%s\t%s\t%d\n", pname, t, p[t])
+      end
     end
   end
 
@@ -117,9 +132,26 @@ def sum_worker
   end
 
   trace projects.inspect
-  projects.each_pair do |pname, p|
-    p.keys.sort.each do |t|
-      printf("%s\t%s\t%0.2f\n", pname, t, p[t])
+
+  if @ignoreprojects
+    types = {}
+
+    projects.each_pair do |pname, p|
+      p.keys.sort.each do |t|
+        types[t] = 0.0 if not types[t]
+        types[t] += p[t]
+      end
+    end
+
+    types.each_pair do |type, count|
+      printf("%s\t%0.2f\n", type, count)
+    end
+
+  else
+    projects.each_pair do |pname, p|
+      p.keys.sort.each do |t|
+        printf("%s\t%s\t%0.2f\n", pname, t, p[t])
+      end
     end
   end
 
@@ -132,6 +164,7 @@ if __FILE__ == $0
     on :a, :age, 'age mode: filter out instance data older than specified date, assumes --parse output format', :argument => :true
     on :s, :sum, 'sum mode: compute aggregate usage per-project'
     on :c, :count, 'count mode: calculate number of active instances per project'
+    on :i, :ignoreprojects, 'compute statistics without regard to projects'
     on :d, :debug, 'enable debug'
     banner "Usage: #{$0} [options] test | prod | s3" \
            "\nWhere 'test' is basho test env, 'prod' is SL, 's3' is Amazon"
@@ -154,6 +187,8 @@ if __FILE__ == $0
     puts opts.help
     exit 2
   end
+
+  @ignoreprojects = opts.ignoreprojects?
 
   if opts.age?
     mode = :age 
