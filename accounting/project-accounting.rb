@@ -71,6 +71,30 @@ def age_worker(age_date)
 end
 
 def count_worker
+  projects = {}
+
+  ARGF.each do |l|
+    # next if not l.match /^INSTANCE/
+
+    project, type = l.split 
+    trace "Read %s : %s " % [project, type]
+
+    # accumulate total project-type usage
+    projects[project] = {} if not projects[project] 
+    trace "project: %s" % projects[project].inspect
+
+    projects[project][type] = 0 if not projects[project][type] 
+    projects[project][type] += 1
+    
+  end
+
+  trace projects.inspect
+  projects.each_pair do |pname, p|
+    p.keys.sort.each do |t|
+      printf("%s\t%s\t%d\n", pname, t, p[t])
+    end
+  end
+
 end
 
 def sum_worker
