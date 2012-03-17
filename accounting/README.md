@@ -24,6 +24,9 @@ Various modes (differentiated by command-line arguments) can display different f
 *Input*: [id project type age timestamp] for each (historical) instance    
 *Output*: [id project type age] for each instance newer than age-date
 
+*Meta-Mode*: ignore-projects    
+For **count** and **sum** modes, ignore projects -- just add everything together and display by instance type.
+
 To look at current usage, parse then count.
 
 To track cumulative use over time, keep a running history of instance data in order to avoid losing information when instances disappear.  Instances age out and stop being counted by being dead for long enough.  Aging out requires keeping a last-seen timestamp on each instance record.
