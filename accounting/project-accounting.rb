@@ -58,7 +58,7 @@ def parse_worker
     trace "Read %s : %s : %f" % [project, type, age]
 
     # show instance details
-    printf("%s\t%s\t%0.2f\t%s\n", project, type, age, @now.to_s)
+    printf("%s\t%s\t%0.2f\t%d\n", project, type, age, @now.to_i)
   end
 end
 
@@ -66,7 +66,8 @@ end
 def age_worker(age_date)
   ARGF.each do |l|
     project, type, age, last_seen = l.split 
-    DateTime.parse(last_seen)
+    last_seen = Time.at(last_seen)
+    age_date = DateTime.parse(last_seen)
     puts l unless last_seen < age_date
   end
 end
@@ -215,36 +216,4 @@ if __FILE__ == $0
     count_worker
   end
 
-
-
-=begin
-  projects = {}
-  ARGF.each do |l|
-    next if not l.match /^INSTANCE/
-
-    # a = l.split
-    # a.each_index { |i| p "%d : %s" % [i, a[i]] }
-
-    project, type, age = extract(l) rescue p "FAIL: %s" % l.split[11]
-    trace "Read %s : %s : %f" % [project, type, age]
-
-    # show instance details
-    printf("INSTANCE\t%s\t%s\t%0.2f\n", project, type, age)
-
-    # accumulate total project-type usage
-    projects[project] = {} if not projects[project] 
-    trace "project: %s" % projects[project].inspect
-
-    projects[project][type] = 0 if not projects[project][type] 
-    projects[project][type] += age
-    
-  end
-
-  trace projects.inspect
-  projects.each_pair do |pname, p|
-    p.keys.sort.each do |t|
-      printf("TOTAL\t%s\t%s\t%0.2f\n", pname, t, p[t])
-    end
-  end
-=end
 end
