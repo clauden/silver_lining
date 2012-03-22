@@ -168,8 +168,8 @@ if __FILE__ == $0
     on :c, :count, 'count mode: calculate number of active instances per project'
     on :i, :ignoreprojects, 'compute statistics without regard to projects'
     on :d, :debug, 'enable debug'
-    banner "Usage: #{$0} [options] test | prod | s3" \
-           "\nWhere 'test' is basho test env, 'prod' is SL, 's3' is Amazon"
+    banner "Usage: #{$0} [options] "    \
+           "\nParse eucatools output, compute project/instance type statistics, strip aged entries."
     on :h, :help, 'get help' do
       puts help
       exit 2
