@@ -64,9 +64,10 @@ end
 
 # skip anything older than age_date
 def age_worker(age_date)
+  age_time = age_date.to_time
   ARGF.each do |l|
     project, type, age, last_seen = l.split 
-    last_seen = Time.at(last_seen)
+    last_seen = Time.at(last_seen.to_i)
     age_date = DateTime.parse(last_seen)
     puts l unless last_seen < age_date
   end
