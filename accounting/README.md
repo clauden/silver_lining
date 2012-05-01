@@ -50,6 +50,8 @@ ewr1:
     key:
     secret:
     
+Using
+-----
 #### To take a snapshot
 
 ```
@@ -74,3 +76,6 @@ Add --ignoreprojects to look at sitewide usage.
 
 To track cumulative use over time, keep a running history of instance data in order to avoid losing information when instances disappear.  Instances age out and stop being counted by being dead for long enough.  Aging out requires keeping a last-seen timestamp on each instance record.
 
+Notes
+-----
+simple-automation.rb is another approach I did on a lark.  The snapshot.rb thing is probably better and should be used.
