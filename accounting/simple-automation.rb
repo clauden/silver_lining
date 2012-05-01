@@ -10,10 +10,11 @@ require 'json'
 
 tmpfile = "/tmp/#{$$}.instances"
 
-f = ARGV[0]
+envfile = ARGV[0] || 'envs.json'
 envs = {}
-s = File.open(ARGV[0]) { |f| f.read }
+s = File.open(envfile) { |f| f.read }
 envs = JSON.parse(s)
+
 #envs.each do |e|
   #p e[1]
 #end
@@ -32,3 +33,5 @@ end
 # parse
 c = "./project-accounting.rb -p #{tmpfile} | ./project-accounting.rb -c -i "
 p  system("#{c}")
+
+File.unlink "#{tmpfile}"
