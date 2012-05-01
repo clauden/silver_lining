@@ -38,8 +38,6 @@ EC2 API access to each site via an account with cloudadmin privilege**.
 
 Site credentials are placed in a yml file as follows:
 ```
-
-```
 ---
 san1:
     api: http://75.55.64.12:8773/services/Cloud
@@ -49,6 +47,7 @@ ewr1:
     api:
     key:
     secret:
+```
     
 Using
 -----
@@ -61,6 +60,7 @@ $ snapshot.rb -f
 #### To count active instances
 ```
 $ cat snapshot_1335912173 | ./project-accounting.rb -c
+```
 
 
 #### To look at cumulative instance-days
