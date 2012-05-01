@@ -60,13 +60,13 @@ $ snapshot.rb -f
 
 #### To count active instances
 ```
-$ cat snapshot_1335912173 | ./project_accounting.rb -c
+$ cat snapshot_1335912173 | ./project-accounting.rb -c
 
 
 #### To look at cumulative instance-days
 
 ```
-$ cat snapshot_1335912173 | ./project_accounting.rb -s
+$ cat snapshot_1335912173 | ./project-accounting.rb -s
 ```
 
 Add --ignoreprojects to look at sitewide usage.
