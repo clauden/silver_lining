@@ -69,7 +69,7 @@ sitekeys.each_pair do |site, info|
 
   puts "checking site '#{site}'"
 
-  cmd = "euca-describe-instances -a #{info['key']} -s #{info['secret']} -U #{info['api']} | ./project-accounting.rb --parse >> #{snapshot_file}"
+  cmd = "euca-describe-instances -a #{info['key']} -s #{info['secret']} -U #{info['api']} | ./project-accounting.rb --parse | ./fix-keystone-tenants.rb -f tenants.yml >> #{snapshot_file}"
   trace cmd
 
   status, stdout, stderr = systemu(cmd)
