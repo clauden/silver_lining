@@ -1,0 +1,8 @@
+m1.medium: { ram: 4096, vcpus: 2}
+m1.small: {ram: 2048, vcpus: 1}
+m1.large: {ram: 8192, vcpus: 4}
+m1.tiny: {ram: 512, vcpus: 1}
+m2.large: {ram: 32768, vcpus: 4}
+m1.xlarge: {ram: 16384, vcpus: 8}
+m2.xlarge: {ram: 32768, vcpus: 8}
+
