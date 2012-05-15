@@ -49,6 +49,13 @@ ewr1:
     secret:
 ```
     
+Encrypted version is managed by
+
+```
+$ openssl enc -aes-256-cbc -salt -in file.txt -out file.enc
+$ openssl enc -d -aes-256-cbc -in file.enc
+```
+
 Using
 -----
 #### To take a snapshot
