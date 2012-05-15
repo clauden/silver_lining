@@ -4,9 +4,16 @@
 # use euca-describe-instances on an account with admin rights to count instances
 # 
 
-require 'date'
-require 'slop'
-# require 'ruby-debug'
+
+['pp', 'date', 'slop', 'yaml'].each do |gem|
+  begin
+    require gem
+  rescue LoadError
+    require "rubygems"
+    require gem
+  end
+end
+  
 
 @debug = nil
 @now = DateTime.now.to_time
@@ -44,6 +51,16 @@ def extract_from_euca_output(l)
   return project, type, age 
 end
 
+#
+# return a formatted string containing vcpu and ram
+#
+def resource_usage_summary(flavor, count)
+  d = @flavormap[flavor]
+  raise "No such flavor #{flavor}" if not d
+  ram = d["ram"] * count
+  vcpus = d["vcpus"] * count 
+  sprintf("%d\t%d", vcpus, ram)
+end
 
 def parse_worker
   projects = {}
@@ -77,7 +94,6 @@ def count_worker
   projects = {}
 
   ARGF.each do |l|
-    # next if not l.match /^INSTANCE/
 
     project, type = l.split 
     trace "Read %s : %s " % [project, type]
@@ -102,12 +118,20 @@ def count_worker
       end
     end
     types.each_pair do |type, count|
-      printf("%s\t%d\n", type, count)
+      if @usagereport
+        printf("%s\t%d\t%s\n", type, count, resource_usage_summary(type, count))
+      else
+        printf("%s\t%d\n", type, count)
+      end
     end
   else
     projects.each_pair do |pname, p|
       p.keys.sort.each do |t|
-        printf("%s\t%s\t%d\n", pname, t, p[t])
+        if @usagereport
+          printf("%s\t%s\t%d\t%s\n", pname, t, p[t], resource_usage_summary(t, p[t]))
+        else 
+          printf("%s\t%s\t%d\n", pname, t, p[t])
+        end
       end
     end
   end
@@ -167,6 +191,8 @@ if __FILE__ == $0
     on :s, :sum, 'sum mode: compute aggregate usage per-project'
     on :c, :count, 'count mode: calculate number of active instances per project'
     on :i, :ignoreprojects, 'compute statistics without regard to projects'
+    on :f, :flavors, 'YAML file containing flavor mappings (for use with --usage)', 'foo', :argument => :true
+    on :u, :usage, 'describe detailed RAM and VCPU usage'
     on :d, :debug, 'enable debug'
     banner "Usage: #{$0} [options] "    \
            "\nParse eucatools output, compute project/instance type statistics, strip aged entries."
@@ -191,6 +217,7 @@ if __FILE__ == $0
   end
 
   @ignoreprojects = opts.ignoreprojects?
+  @usagereport = opts.usage?
 
   if opts.age?
     mode = :age 
@@ -205,6 +232,18 @@ if __FILE__ == $0
     puts opts.help
     exit 4
   end
+
+  @flavormap = {}
+  if @usagereport
+    raise "Missing flavors YAML" if not opts[:flavors]
+    begin
+      f = File.read(opts[:flavors])
+      @flavormap = YAML.load f 
+    rescue Object => x
+      p x
+      exit 5
+    end
+  end 
 
   case mode
   when :age
