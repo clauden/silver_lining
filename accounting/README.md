@@ -57,6 +57,21 @@ Using
 $ snapshot.rb -f 
 ```
 
+This will attempt to resolve Keystone tenant IDs to names using fix-keystone-tenants.
+
+#### Using fix-keystone-tenants
+
+Provide a 'tenants.yml' file like this:
+
+```
+1: sandbox
+4: mhealth-prod-ewr1
+5: site-latency-test-ewr1
+6: ucm-dev-ewr1
+7: openpeak-dev-ewr1
+8: blackflag-apigee-kms4-ewr1
+```
+
 #### To count active instances
 ```
 $ cat snapshot_1335912173 | ./project-accounting.rb -c
@@ -71,6 +86,19 @@ $ cat snapshot_1335912173 | ./project-accounting.rb -s
 
 Add --ignoreprojects to look at sitewide usage.
 
+### Looking at aggregate resource usage
+
+Use the -u and -f options to get usage in vCPUs and RAM.  Currently works for --count only.  The --flavors file is yaml, like
+
+```
+m1.medium: { ram: 4096, vcpus: 2}
+m1.small: {ram: 2048, vcpus: 1}
+m1.large: {ram: 8192, vcpus: 4}
+m1.tiny: {ram: 512, vcpus: 1}
+m2.large: {ram: 32768, vcpus: 4}
+m1.xlarge: {ram: 16384, vcpus: 8}
+m2.xlarge: {ram: 32768, vcpus: 8}
+```
 
 #### Time series
 
