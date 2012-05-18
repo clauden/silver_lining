@@ -63,7 +63,8 @@ STDIN.each do |l|
   f = l.split
 
   if f[0].match(/^[0-9]/)
-    f[0] = mapping[f[0].to_i]
+    # raise "No mapping for tenant id #{f[0]}" if not mapping[f[0].to_i]
+    f[0] = mapping[f[0].to_i] || "unknown-#{f[0]}"
   end
   puts f.join(' ')
 end
