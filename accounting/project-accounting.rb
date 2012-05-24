@@ -14,6 +14,7 @@
   end
 end
   
+DEFAULT_FLAVORS = "flavors.yml"
 
 @debug = nil
 @now = DateTime.now.to_time
@@ -218,6 +219,7 @@ if __FILE__ == $0
 
   @ignoreprojects = opts.ignoreprojects?
   @usagereport = opts.usage?
+  @flavors_file = opts[:flavors] || DEFAULT_FLAVORS
 
   if opts.age?
     mode = :age 
@@ -235,9 +237,8 @@ if __FILE__ == $0
 
   @flavormap = {}
   if @usagereport
-    raise "Missing flavors YAML" if not opts[:flavors]
     begin
-      f = File.read(opts[:flavors])
+      f = File.read(@flavors_file)
       @flavormap = YAML.load f 
     rescue Object => x
       p x

@@ -9,6 +9,8 @@
   end
 end
   
+
+DEFAULT_CREDS = "./envs.yml"
 @debug = false
 
 def trace(s)
@@ -42,15 +44,12 @@ rescue Slop::MissingArgumentError => x
 end
 
 @debug = opts.debug?
+@creds_file = opts[:file] || DEFAULT_CREDS
 
 creds_data = ""
-if opts[:file] 
-  File.open(opts[:file]) do |f|
-    creds_data = f.readlines
-    trace "read #{creds_data}"
-  end
-else
-  creds_data = STDIN.readlines
+File.open(@creds_file) do |f|
+  creds_data = f.readlines
+  trace "read #{creds_data}"
 end
   
 sitekeys = YAML::load(creds_data.join)
