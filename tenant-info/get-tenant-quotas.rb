@@ -59,7 +59,6 @@ DEFAULT_QUOTA_TAGS = %w[
 	cores
 	ram
 	gigabytes
-	floating_ips
 	instances
 	volumes
 ]
