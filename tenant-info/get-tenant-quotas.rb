@@ -154,13 +154,13 @@ end
 # 
 
 opts = Slop.parse({:help => true})  do
-    banner "Usage: #{$0} [--tenants tenant-name,tenant-name,...] [--quota quota-tag,quota-tag] [--csv] [--num number-tenants-to-show]"
+    banner "Usage: #{$0} [--tenants tenant-name,tenant-name,...] [--quota quota-tag,quota-tag] [--csv] [--legacy] [--num number-tenants-to-show]"
     on :t, :tenants=, "tenant name", true
     on :c, :csv, "fixed format CSV output"
     on :n, :num=, "number of tenants to list", true
     on :q, :quota=, "quota tags to capture", true
     on :s, :show_quota_tags, "show available quota tags"
-		on :l, :legacy, "use legacy (pre-Grizzly) commands"
+    on :l, :legacy, "use legacy (pre-Grizzly) commands"
 end
 
 if opts[:show_quota_tags]
