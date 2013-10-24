@@ -167,14 +167,14 @@ if opts[:show_quota_tags]
 	exit 2
 end
 
-@tenant_limit = opts[:num].to_i
+@tenant_limit = opts[:num].to_i if opts[:num]
 @tenants = opts[:tenants] ? opts[:tenants].split(/,/) : load_tenants
 @quota_tags = opts[:quota] ? opts[:quota].split(/,/) : DEFAULT_QUOTA_TAGS
 @csv = opts[:csv]
 @legacy = opts[:legacy]
 
 # p "@legacy = #{@legacy}"
-# p "@tenant_limit = #{@tenant_limit}"
+ p "@tenant_limit = #{@tenant_limit}"
 # p "@tenants = #{@tenants}"
 # p "@quota_tags = #{@quota_tags}"
 
