@@ -153,7 +153,7 @@ end
 # main begins
 # 
 
-opts = Slop.parse do
+opts = Slop.parse({:help => true})  do
     banner "Usage: #{$0} [--tenants tenant-name,tenant-name,...] [--quota quota-tag,quota-tag] [--csv] [--num number-tenants-to-show]"
     on :t, :tenants=, "tenant name", true
     on :c, :csv, "fixed format CSV output"
