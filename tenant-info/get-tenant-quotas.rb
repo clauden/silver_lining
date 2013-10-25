@@ -184,7 +184,7 @@ end
 # puts "#{@info.inspect}"
 
 if @header && @csv
-	s = "# tenant-name"
+	s = "# tenant"
 	@quota_tags.each do |a|	
 		s << ",#{a}"
 	end
