@@ -153,13 +153,14 @@ end
 # 
 
 opts = Slop.parse({:help => true})  do
-    banner "Usage: #{$0} [--tenants tenant-name,tenant-name,...] [--quota quota-tag,quota-tag] [--csv] [--legacy] [--num number-tenants-to-show]"
+    banner "Usage: #{$0} [--tenants tenant-name,...] [--quota quota-tag,...] [--csv] [--legacy] [--Header] [--num num-tenants-to-show]\n       #{$0} --show_quota_tags"
     on :t, :tenants=, "tenant name", true
     on :c, :csv, "fixed format CSV output"
     on :n, :num=, "number of tenants to list", true
     on :q, :quota=, "quota tags to capture", true
     on :s, :show_quota_tags, "show available quota tags"
     on :l, :legacy, "use legacy (pre-Grizzly) commands"
+    on :H, :Header, "quota tag header in csv output"
 end
 
 if opts[:show_quota_tags]
@@ -172,14 +173,22 @@ end
 @quota_tags = opts[:quota] ? opts[:quota].split(/,/) : DEFAULT_QUOTA_TAGS
 @csv = opts[:csv]
 @legacy = opts[:legacy]
+@header = opts[:Header]
 
 # p "@legacy = #{@legacy}"
- p "@tenant_limit = #{@tenant_limit}"
+# p "@tenant_limit = #{@tenant_limit}"
 # p "@tenants = #{@tenants}"
 # p "@quota_tags = #{@quota_tags}"
 
 @info = load_quotas(@tenants)
 # puts "#{@info.inspect}"
 
+if @header && @csv
+	s = "# tenant-name"
+	@quota_tags.each do |a|	
+		s << ",#{a}"
+	end
+	puts s
+end
 puts parse_quotas(@info)
 
